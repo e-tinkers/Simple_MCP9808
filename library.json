@@ -1,0 +1,16 @@
+{
+  "name": "Simple MCP9808",
+  "keywords": "sensor, MCP9808",
+  "description": "Simple MCP9808 is a lightweight Arduino library for Microchip MCP9808 temperature sensor",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/e-tinkers/Simple_MCP9808"
+  },
+  "version": "1.0.0",
+  "authors": {
+    "name": "Henry Cheung",
+    "url": "https://www.e-tinkers.com"
+  },
+  "frameworks": "arduino",
+  "platforms": "*"
+}
