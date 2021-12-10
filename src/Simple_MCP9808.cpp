@@ -65,8 +65,8 @@ bool Simple_MCP9808::begin(uint8_t address) {
   _manufacturerID = _i2cRead16(MFR_ID_REG);
 
   int16_t dev = _i2cRead16(DEV_ID_REG);
-  _deviceID = (uint8_t) dev >> 8;
-  _revision = (uint8_t) dev & 0xff;
+  _deviceID = (uint8_t) (dev >> 8);
+  _revision = (uint8_t) (dev & 0xff);
 
   return (_manufacturerID == MFR_ID && _deviceID == DEV_ID);
 }

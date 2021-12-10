@@ -12,6 +12,12 @@ void setup() {
     Serial.println("Failed to communicate with MCP9808 sensor");
     while (1) { delay(10); }
   }
+  else {
+    Serial.print("Manufacture ID: ");
+    Serial.println(mcp.getManufacturerID());
+    Serial.print("Device ID: ");
+    Serial.println(mcp.getDeviceID());
+  }
 
   // Be default MCP9808 resolutinon is set at 0.0625°C (i.e. 1/16 degree Celsius)
   // other lower resolutions can be set at RES_P50 (0.5°C), RES_P25(0.25°C) and
