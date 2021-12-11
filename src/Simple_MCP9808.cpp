@@ -72,7 +72,7 @@ bool Simple_MCP9808::begin(uint8_t address) {
 }
 
 /* Set Resolution Register - default on power-up is 0.0625°C */
-void Simple_MCP9808::setResolutionRegister(uint8_t resolution) {
+void Simple_MCP9808::setResolution(uint8_t resolution) {
   if (resolution >= RES_P50 && resolution <= RES_P0625) {
     _i2cWrite(RESOLUTION_REG, resolution);
   }

@@ -49,7 +49,7 @@ class Simple_MCP9808
   public:
     Simple_MCP9808();
     bool begin(uint8_t address=MCP9808_ADDR);
-    void setResolutionRegister(uint8_t resolution=RES_P0625);
+    void setResolution(uint8_t resolution=RES_P0625);
     void setUpperTemperature(int16_t tUpper);
     void setLowerTemperature(int16_t tLower);
     void setCriticalTemperature(int16_t tCritical);
