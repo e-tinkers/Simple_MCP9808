@@ -53,12 +53,16 @@ class Simple_MCP9808
     void setUpperTemperature(int16_t tUpper);
     void setLowerTemperature(int16_t tLower);
     void setCriticalTemperature(int16_t tCritical);
+    int16_t getLowerTemperature();
+    int16_t getUpperTemperature();
+    int16_t getCriticalTemperature();
     int16_t getTemperature();
     uint8_t getDeviceID();
     uint8_t getRevision();
     uint16_t getManufacturerID();
     uint8_t alerted();
     void shutdown();
+    uint16_t status();
 
   private:
     uint8_t _i2cAddr;
@@ -67,9 +71,11 @@ class Simple_MCP9808
     uint8_t _deviceID;
     uint8_t _revision;
     uint16_t _manufacturerID;
+    uint16_t _configuration;
 
     void _i2cWrite(uint8_t reg, uint8_t data);
-    void _i2cWrite16(uint8_t reg, uint16_t data);
+    void _i2cWrite16(uint8_t reg, int16_t data);
     int16_t _i2cRead16(uint8_t reg);
+    int16_t _readTemperatureData(uint8_t reg);
 };
 #endif

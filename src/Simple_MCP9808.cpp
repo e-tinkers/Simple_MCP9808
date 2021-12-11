@@ -13,6 +13,7 @@ Simple_MCP9808::Simple_MCP9808() {
   _i2cAddr = MCP9808_ADDR;
   _resolution = RES_P0625;
   _alert = NO_ALERT;
+  _configuration = 0;
 }
 
 void Simple_MCP9808::_i2cWrite(uint8_t reg, uint8_t data) {
@@ -23,12 +24,12 @@ void Simple_MCP9808::_i2cWrite(uint8_t reg, uint8_t data) {
     Wire.endTransmission();
 }
 
-void Simple_MCP9808::_i2cWrite16(uint8_t reg, uint16_t data) {
+void Simple_MCP9808::_i2cWrite16(uint8_t reg, int16_t data) {
     Wire.begin();
     Wire.beginTransmission(_i2cAddr);
     Wire.write(reg);
-    Wire.write( (uint8_t) data >> 8);
-    Wire.write( (uint8_t) data & 0xff);
+    Wire.write( (uint8_t) (data >> 8) );
+    Wire.write( (uint8_t) (data & 0xff) );
     Wire.endTransmission();
 }
 
@@ -38,10 +39,8 @@ int16_t Simple_MCP9808::_i2cRead16(uint8_t reg) {
   Wire.endTransmission();
 
   // conversion time depend on resolution
-  if (reg == AMBIENT_TEMP_REG) {
-    int ms[4]={30, 65, 130, 250};
-    delay(ms[_resolution]);
-  }
+  int ms[4]={30, 65, 130, 250};
+  delay(ms[_resolution]);
 
   int16_t data = 0;
   Wire.requestFrom(_i2cAddr, (uint8_t) 0x02);
@@ -49,6 +48,25 @@ int16_t Simple_MCP9808::_i2cRead16(uint8_t reg) {
     data = (Wire.read() << 8);
     data |= Wire.read();
   }
+
+  return data;
+}
+
+int16_t Simple_MCP9808::_readTemperatureData(uint8_t reg) {
+
+  int16_t data = _i2cRead16(reg);
+
+  // bit 15 - 13 represent temp boundaries set by tCritical ,tUpper and tLower
+  if (reg == AMBIENT_TEMP_REG) {
+    _alert = (uint8_t) (data >> 8) & (CRITICAL_TEMP_ALERT | UPPER_TEMP_ALERT | LOWER_TEMP_ALERT);
+  }
+
+  data &= 0x1FFF;
+  //if sign bit is set, convert the two's complement value to a negative number
+  if (data & 0x1000) {
+    data = -( (~data & 0xfff) + 1 );
+  }
+
   return data;
 }
 
@@ -73,22 +91,22 @@ bool Simple_MCP9808::begin(uint8_t address) {
 
 /* Set Resolution Register - default on power-up is 0.0625°C */
 void Simple_MCP9808::setResolution(uint8_t resolution) {
-  if (resolution >= RES_P50 && resolution <= RES_P0625) {
+  if ( (resolution >= RES_P50) && (resolution <= RES_P0625) ) {
     _i2cWrite(RESOLUTION_REG, resolution);
   }
 }
 
 /* uppder temperature limit is 11-bit with 0.250°C precision */
 void Simple_MCP9808::setUpperTemperature(int16_t tUpper) {
-  _i2cWrite16(UPPER_TEMP_REG, (tUpper & 0x1ff) << 4);
+  _i2cWrite16(UPPER_TEMP_REG, tUpper << 4);
 }
 
 void Simple_MCP9808::setLowerTemperature(int16_t tLower) {
-  _i2cWrite16(LOWER_TEMP_REG, (tLower & 0x1ff) << 4);
+  _i2cWrite16(LOWER_TEMP_REG, tLower << 4);
 }
 
 void Simple_MCP9808::setCriticalTemperature(int16_t tCritical) {
-  _i2cWrite16(CRITICAL_TEMP_REG, (tCritical & 0x1ff) << 4);
+  _i2cWrite16(CRITICAL_TEMP_REG, tCritical << 4);
 }
 
 /*
@@ -97,15 +115,19 @@ the raw temperature value returned is in integer with 4-decimal point precision
 To get actual temperature value in Celsius, divide it by 16
 */
 int16_t Simple_MCP9808::getTemperature() {
-  int16_t temp = _i2cRead16(AMBIENT_TEMP_REG);
-  // bit 15 - 13 represent temp boundaries set by tCritical ,tUpper and tLower
-  _alert = (uint8_t) (temp >> 8) & (CRITICAL_TEMP_ALERT | UPPER_TEMP_ALERT | LOWER_TEMP_ALERT);
-  temp &= 0x1FFF;
-  //if sign bit is set, convert the two's complement value to a negative number
-  if (temp & 0x1000) {
-    temp = -( (~temp & 0xfff) + 1 );
-  }
-  return temp;
+  return _readTemperatureData(AMBIENT_TEMP_REG);
+}
+
+int16_t Simple_MCP9808::getLowerTemperature() {
+  return _readTemperatureData(LOWER_TEMP_REG);
+}
+
+int16_t Simple_MCP9808::getUpperTemperature() {
+  return _readTemperatureData(UPPER_TEMP_REG);
+}
+
+int16_t Simple_MCP9808::getCriticalTemperature() {
+  return _readTemperatureData(CRITICAL_TEMP_REG);
 }
 
 uint8_t Simple_MCP9808::getDeviceID() {
@@ -127,4 +149,8 @@ uint8_t Simple_MCP9808::alerted() {
 /* Set SHDN bit of Config Register */
 void Simple_MCP9808::shutdown() {
   _i2cWrite16(CONFIG_REG, SHUTDOWN_MODE);
+}
+
+uint16_t Simple_MCP9808::status() {
+  return _configuration = _i2cRead16(CONFIG_REG);
 }
