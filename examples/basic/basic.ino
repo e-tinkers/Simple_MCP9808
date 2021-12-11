@@ -1,3 +1,5 @@
+// Datasheet: https://ww1.microchip.com/downloads/en/DeviceDoc/25095A.pdf
+
 #include <Simple_MCP9808.h>
 
 Simple_MCP9808 mcp; // Datasheet: https://ww1.microchip.com/downloads/en/DeviceDoc/25095A.pdf
@@ -29,7 +31,7 @@ void setup() {
 void loop() {
 
   int16_t tempR = mcp.getTemperature();
-  Serial.print("Temperaure raw reading = ");
+  Serial.print("Temperature raw reading = ");
   Serial.println(tempR);
 
   float tempC = tempR/16.0;

@@ -142,7 +142,7 @@ uint16_t Simple_MCP9808::getManufacturerID() {
   return _manufacturerID;
 }
 
-uint8_t Simple_MCP9808::alerted() {
+uint8_t Simple_MCP9808::alertTriggered() {
   return _alert;
 }
 

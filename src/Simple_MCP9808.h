@@ -60,7 +60,7 @@ class Simple_MCP9808
     uint8_t getDeviceID();
     uint8_t getRevision();
     uint16_t getManufacturerID();
-    uint8_t alerted();
+    uint8_t alertTriggered();
     void shutdown();
     uint16_t status();
 
