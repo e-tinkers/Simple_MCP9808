@@ -3,8 +3,8 @@
 // To test the alert triggering, change the following parameters to suit your
 // temperature environment so that an alert can be obversed
 #define LOWER_LIMIT_TEMPERATURE -20
-#define UPPER_LIMIT_TEMPERATURE 25
-#define CRITICAL_TEMPERATURE 30
+#define UPPER_LIMIT_TEMPERATURE 100
+#define CRITICAL_TEMPERATURE 100
 
 Simple_MCP9808 mcp;
 
