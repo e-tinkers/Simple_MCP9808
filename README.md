@@ -19,7 +19,7 @@ else {
 
 See [basic.ino](https://github.com/e-tinkers/Simple_MCP9808/blob/master/examples/basic/basic.ino) for complete code.
 
-## Check Alert Conditions
+## Alert Trigger
 MCP9808 converts temperatures between -20°C and +100°C to a digital word with ±0.25°C/±0.5°C (typical/maximum) accuracy. There is a user-programmable temperature limits for temperature window limit (for upper and lower temperature limits) and critical temperature limit. The [check_alert](https://github.com/e-tinkers/Simple_MCP9808/blob/master/examples/check_alert/check_alert.ino) example demonstrated how to setup the lower-limit and upper-limit temperature as well as critical temperature threshhold, and how to evaluate the triggered alert status when an alert is triggered.
 
 ## Power-Saving Mode
