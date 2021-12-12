@@ -74,7 +74,6 @@ class Simple_MCP9808
     uint8_t _deviceID;
     uint8_t _revision;
     uint16_t _manufacturerID;
-    uint16_t _configuration;
 
     void _i2cWrite(uint8_t reg, uint8_t data);
     void _i2cWrite16(uint8_t reg, int16_t data);

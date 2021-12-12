@@ -13,7 +13,6 @@ Simple_MCP9808::Simple_MCP9808() {
   _i2cAddr = MCP9808_ADDR;
   _resolution = RES_P0625;
   _alert = NO_ALERT;
-  _configuration = 0;
 }
 
 void Simple_MCP9808::_i2cWrite(uint8_t reg, uint8_t data) {
@@ -157,5 +156,5 @@ void Simple_MCP9808::shutdown() {
 }
 
 uint16_t Simple_MCP9808::getConfiguration() {
-  return _configuration = _i2cRead16(CONFIG_REG);
+  return _i2cRead16(CONFIG_REG);
 }
