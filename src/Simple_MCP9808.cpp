@@ -76,6 +76,9 @@ bool Simple_MCP9808::begin(uint8_t address) {
   if (address != MCP9808_ADDR)
     _i2cAddr |= (address & 0x1F);
 
+  Wire.begin();
+  Wire.setClock(400000L);
+
   setConfiguration(0x0000);
 
   _manufacturerID = _i2cRead16(MFR_ID_REG);

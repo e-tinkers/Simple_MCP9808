@@ -12,7 +12,7 @@ void setup() {
   Serial.begin(115200);
   Serial.println();
 
-  if (!mcp.begin()) {
+  if (mcp.begin()) {
     // Setup temperature threshholds
     mcp.setLowerTemperature(LOWER_LIMIT_TEMPERATURE);
     mcp.setUpperTemperature(UPPER_LIMIT_TEMPERATURE);

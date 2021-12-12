@@ -28,6 +28,9 @@ MCP9808 offers an alert pin which can be used to trigger an interrupt when tempe
 ## Power-Saving Mode
 MCP9808 offers sensor shutdown capability which disables all power consuming activities (including temperature sampling operations) while leaving the serial interface active, bring the shutdown current down to 0.1uA (typical) from typcial operating current of 200uA. This is a great feature for battery-powered temperature sensing. See [power_saving.ino](https://github.com/e-tinkers/Simple_MCP9808/blob/master/examples/power_saving/power_saving.ino) for the example.
 
+## I2C address
+By default, MCP9808 has an I2C address of 0x18, User-selectable address can be configurated through the A0-A2 pins of the chip, which alter the 3 least significant bits, giving the choise of I2C address betwen 0x18-0x1F. See page 11 (Section 3.5) for detail description.
+
 ## Reference
 [MCP9808 Datasheet](https://ww1.microchip.com/downloads/en/DeviceDoc/25095A.pdf).
 
