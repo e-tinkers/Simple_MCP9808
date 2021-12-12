@@ -10,15 +10,17 @@ void setup() {
 void loop() {
 
   if (mcp.begin()) {
-    int16_t tempR = mcp.getTemperature();
-    mcp.shundown();  //put MCP9808 in power-saving mode
     Serial.print("Temperature in Celsius = ");
-    Serial.println(tempR/16.0);
+    Serial.println(mcp.getTemperature()/16.0);
+
+    Serial.println("Put MCP9808 in power-saving mode");
+    mcp.shundown();
   }
   else {
     Serial.println("Unable to communicate with MCP9808 sensor");
   }
 
-  delay(5000);
+  // loop forever or replace this with MCU deep sleep code
+  while(true) { delay(10); }
 
 }

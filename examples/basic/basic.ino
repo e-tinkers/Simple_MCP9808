@@ -10,21 +10,22 @@ void setup() {
 
   // By default, MCP0808 I2C address is 0x18, if other address is used, instantiated
   // the sensor object with MCP9808 mcp(i2cAddr); See 3.0 PIN DESCRIPTION of datasheet
-  if (!mcp.begin()) {
-    Serial.println("Failed to communicate with MCP9808 sensor");
-    while (1) { delay(10); }
-  }
-  else {
+  if (mcp.begin()) {
     Serial.print("Manufacture ID: ");
     Serial.println(mcp.getManufacturerID());
     Serial.print("Device ID: ");
     Serial.println(mcp.getDeviceID());
+    Serial.print("Revision:       ");
+    Serial.println(mcp.getRevision());
+    // Be default MCP9808 resolutinon is set at 0.0625°C (i.e. 1/16 degree Celsius)
+    // other lower resolutions can be set at RES_P50 (0.5°C), RES_P25(0.25°C) and
+    // RES_P125(0.125°C)
+    // mcp.setResolutionRegister(RES_P0625);
   }
-
-  // Be default MCP9808 resolutinon is set at 0.0625°C (i.e. 1/16 degree Celsius)
-  // other lower resolutions can be set at RES_P50 (0.5°C), RES_P25(0.25°C) and
-  // RES_P125(0.125°C)
-  // mcp.setResolutionRegister(RES_P0625);
+  else {
+    Serial.println("Failed to communicate with MCP9808 sensor");
+    while (1) { delay(10); }
+  }
 
 }
 

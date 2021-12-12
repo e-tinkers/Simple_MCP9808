@@ -13,30 +13,21 @@ void setup() {
   Serial.println();
 
   if (!mcp.begin()) {
-    Serial.println("Failed to communicate with MCP9808 sensor");
-    while (1) { delay(10); }
-  }
-  else {
     // Setup temperature threshholds
     mcp.setLowerTemperature(LOWER_LIMIT_TEMPERATURE);
     mcp.setUpperTemperature(UPPER_LIMIT_TEMPERATURE);
     mcp.setCriticalTemperature(CRITICAL_TEMPERATURE);
   }
+  else {
+    Serial.println("Failed to communicate with MCP9808 sensor");
+    while (1) { delay(10); }
+  }
 }
 
 void loop() {
 
-  int16_t tempR = mcp.getTemperature();
-  Serial.print("Temperaure raw reading = ");
-  Serial.println(tempR);
-
-  float tempC = tempR/16.0;
   Serial.print("Temperature in Celsius = ");
-  Serial.println(tempC);
-
-  float tempF = tempR/16.0 * 9.0 / 5.0 + 32;
-  Serial.print("Temperature in Fahrenheit = ");
-  Serial.println(tempF);
+  Serial.println(mcp.getTemperature()/16.0;);
 
   int16_t alertStatus = mcp.alertTriggered();
 
