@@ -19,8 +19,11 @@ else {
 
 See [basic.ino](https://github.com/e-tinkers/Simple_MCP9808/blob/master/examples/basic/basic.ino) for complete code.
 
-## Alert Trigger
-MCP9808 converts temperatures between -20°C and +100°C to a digital word with ±0.25°C/±0.5°C (typical/maximum) accuracy. There is a user-programmable temperature limits for temperature window limit (for upper and lower temperature limits) and critical temperature limit. The [check_alert](https://github.com/e-tinkers/Simple_MCP9808/blob/master/examples/check_alert/check_alert.ino) example demonstrated how to setup the lower-limit and upper-limit temperature as well as critical temperature threshhold, and how to evaluate the triggered alert status when an alert is triggered.
+## Alert with Pulling
+MCP9808 converts temperatures between -20°C and +100°C to a digital word with ±0.25°C/±0.5°C (typical/maximum) accuracy. There is a user-programmable temperature limits for temperature window limit (for upper and lower temperature limits) and critical temperature limit. The [check_alert](https://github.com/e-tinkers/Simple_MCP9808/blob/master/examples/check_alert/check_alert.ino) example demonstrated how to setup the lower-limit and upper-limit temperature as well as critical temperature threshhold, the alert states is returned when reading a temperature, it can be used to evaluate whether the temperature has exceed the preset temperature boundary.
+
+## Alert with Interrupt
+MCP9808 offers an alert pin which can be used to trigger an interrupt when temperature drifts above or below TUPPER and TLOWER limits, or uses as a critical temperature-only output. In Interrupt mode, the alert pin can be set as active-low(default) or active-high. The microcontroller receiving the interrupt will have to acknowledge the interrupt by clearing the interrupt clear bit. The [alert_interrupt](https://github.com/e-tinkers/Simple_MCP9808/blob/master/examples/aleart_interrupt/alert_interrupt.ino) example demostrates the usage of interupt.
 
 ## Power-Saving Mode
 MCP9808 offers sensor shutdown capability which disables all power consuming activities (including temperature sampling operations) while leaving the serial interface active, bring the shutdown current down to 0.1uA (typical) from typcial operating current of 200uA. This is a great feature for battery-powered temperature sensing. See [power_saving.ino](https://github.com/e-tinkers/Simple_MCP9808/blob/master/examples/power_saving/power_saving.ino) for the example.

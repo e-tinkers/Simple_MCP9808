@@ -29,7 +29,7 @@ void loop() {
   Serial.print("Temperature in Celsius = ");
   Serial.println(mcp.getTemperature()/16.0;);
 
-  int16_t alertStatus = mcp.alertTriggered();
+  int16_t alertStatus = mcp.alertStates();
 
   if (alertStatus & LOWER_TEMP_ALERT)
     Serial.println("*** Temperature < Preset Lower Limit");

@@ -43,6 +43,8 @@
 
 #define SHUTDOWN_MODE 0x0100
 
+#define INTERRUPT_CLEAR_BIT 0x0020
+
 
 class Simple_MCP9808
 {
@@ -61,9 +63,9 @@ class Simple_MCP9808
     uint8_t getDeviceID();
     uint8_t getRevision();
     uint16_t getManufacturerID();
-    uint8_t alertTriggered();
+    uint8_t alertStates();
     void shutdown();
-    uint16_t status();
+    uint16_t getConfiguration();
 
   private:
     uint8_t _i2cAddr;

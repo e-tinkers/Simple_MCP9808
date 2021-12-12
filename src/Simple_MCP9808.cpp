@@ -144,7 +144,7 @@ uint16_t Simple_MCP9808::getManufacturerID() {
   return _manufacturerID;
 }
 
-uint8_t Simple_MCP9808::alertTriggered() {
+uint8_t Simple_MCP9808::alertStates() {
   return _alert;
 }
 
@@ -153,6 +153,6 @@ void Simple_MCP9808::shutdown() {
   _i2cWrite16(CONFIG_REG, SHUTDOWN_MODE);
 }
 
-uint16_t Simple_MCP9808::status() {
+uint16_t Simple_MCP9808::getConfiguration() {
   return _configuration = _i2cRead16(CONFIG_REG);
 }
