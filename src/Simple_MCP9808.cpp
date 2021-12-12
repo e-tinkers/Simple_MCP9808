@@ -17,7 +17,6 @@ Simple_MCP9808::Simple_MCP9808() {
 }
 
 void Simple_MCP9808::_i2cWrite(uint8_t reg, uint8_t data) {
-    Wire.begin();
     Wire.beginTransmission(_i2cAddr);
     Wire.write(reg);
     Wire.write(data);
@@ -25,7 +24,6 @@ void Simple_MCP9808::_i2cWrite(uint8_t reg, uint8_t data) {
 }
 
 void Simple_MCP9808::_i2cWrite16(uint8_t reg, int16_t data) {
-    Wire.begin();
     Wire.beginTransmission(_i2cAddr);
     Wire.write(reg);
     Wire.write( (uint8_t) (data >> 8) );
@@ -78,7 +76,8 @@ bool Simple_MCP9808::begin(uint8_t address) {
   if (address != MCP9808_ADDR)
     _i2cAddr |= (address & 0x1F);
 
-  _i2cWrite16(CONFIG_REG, 0x0000);
+  //_i2cWrite16(CONFIG_REG, 0x0000);
+  setConfiguration(0x0000);
 
   _manufacturerID = _i2cRead16(MFR_ID_REG);
 
@@ -94,6 +93,10 @@ void Simple_MCP9808::setResolution(uint8_t resolution) {
   if ( (resolution >= RES_P50) && (resolution <= RES_P0625) ) {
     _i2cWrite(RESOLUTION_REG, resolution);
   }
+}
+
+void Simple_MCP9808::setConfiguration(uint16_t config) {
+  _i2cWrite16(CONFIG_REG, config);
 }
 
 /* uppder temperature limit is 11-bit with 0.250°C precision */
